@@ -24,6 +24,7 @@ ec2_app_client = boto3.client('ec2', region_name='us-east-1',
 
 # SQS queue URLs
 req_queue_url = 'https://sqs.us-east-1.amazonaws.com/905418105068/1229729529-req-queue'
+resp_queue_url = 'https://sqs.us-east-1.amazonaws.com/905418105068/1229729529-resp-queue'
 
 # Define thresholds
 max_instances = 20
@@ -103,7 +104,7 @@ def auto_scale():
                 terminate_ec2_instances(instance_ids)
                 break
             last_req_queue_size = req_queue_size 
-        sqs_req_client.purge_queue(QueueUrl=req_queue_url)
+        sqs_req_client.purge_queue(QueueUrl=resp_queue_url)
             
 
 if __name__ == "__main__":
