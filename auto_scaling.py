@@ -103,11 +103,11 @@ def auto_scale():
                 consecutive_message_counts = 0
                 
             if consecutive_message_counts == 3 and req_queue_size == 0:
-                time.sleep(15)
+                time.sleep(20)
                 terminate_ec2_instances(instance_ids)
                 break
             last_req_queue_size = req_queue_size 
-        time.sleep(20)
+        time.sleep(30)
         sqs_req_client.purge_queue(QueueUrl=resp_queue_url)
             
 
