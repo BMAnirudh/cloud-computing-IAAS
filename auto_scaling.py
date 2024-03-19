@@ -40,6 +40,7 @@ def get_queue_size(queue_url):
 
 def launch_ec2_instances(count):
     # Launch 'count' number of EC2 instances
+    print(count)
     instance_ids = []
     for i in range(count):
         value = 'app-tier-instance-' + str(i+1)
@@ -57,6 +58,7 @@ def launch_ec2_instances(count):
         )
         instance_ids.append(response['Instances'][0]['InstanceId'])
         # instance_ids = [instance['InstanceId'] for instance in response['Instances']]
+    print(len(instance_ids))
     return instance_ids
 
 def terminate_ec2_instances(instance_ids):
@@ -101,9 +103,11 @@ def auto_scale():
                 consecutive_message_counts = 0
                 
             if consecutive_message_counts == 3 and req_queue_size == 0:
+                time.sleep(15)
                 terminate_ec2_instances(instance_ids)
                 break
             last_req_queue_size = req_queue_size 
+        time.sleep(20)
         sqs_req_client.purge_queue(QueueUrl=resp_queue_url)
             
 
